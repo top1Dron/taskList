@@ -1,0 +1,30 @@
+{% load static %}
+<html>
+    <head>
+        <title>Tasks for today</title>
+        <link rel='stylesheet' href="{% static 'css/styles.css' %}">
+
+        <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="{% static 'js/script.js' %}"></script>
+    </head>
+    <body>
+        <div class='container'>
+            <h1>Currrent tasks</h1>
+            <ul id='todo-list'>
+            {% for task in tasks %}
+                {% if task.is_completed %}
+                <li class="completed">
+                    <input class='checkbox' data-uid={{task.id}} type='checkbox' disabled='disabled' checked='checked' />
+                {% else %}
+                <li>
+                    <input class='checkbox' data-uid={{task.id}} type='checkbox' />
+                {% endif %}
+                    {{ task }}
+                    <a class='remove' href="/api/delete/{{ task.id }}">X</a>
+                    <hr/>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </body>
+</html>
