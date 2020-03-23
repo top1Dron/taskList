@@ -1,0 +1,17 @@
+{% load static %}
+<html>
+    <head>
+        <title>{% block title %} Base{% endblock %}</title>
+        <link rel='stylesheet' href="{% static 'css/styles.css' %}">
+
+        <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+        {% block extrahead %}
+        {% endblock extrahead %}
+    </head>
+    <body>
+        <div class='container'>
+            {% block main_content %}
+            {% endblock main_content %}
+        </div>
+    </body>
+</html>
