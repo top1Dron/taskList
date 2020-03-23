@@ -17,6 +17,6 @@ $(document).ready(function(){
         
 
         uid = $(this).attr('data-uid');
-        $.get("/api/complete/" + uid);
+        $.get("../complete/" + uid);
     });
 });
