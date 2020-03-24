@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class TodoItem(models.Model):
@@ -10,6 +11,10 @@ class TodoItem(models.Model):
 
     def __str__(self):
         return self.description.lower()
+
+
+    def get_absolute_url(self):
+        return reverse("tasks:details", args=[self.pk])
 
 
     class Meta:

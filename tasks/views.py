@@ -1,7 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.views.import View
+from django.urls import reverse
+from django.views import View
 from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+
+
 from tasks.models import TodoItem
 from tasks.forms import TodoItemForm
 
@@ -19,9 +23,12 @@ def complete_task(request, uid):
 
 
 def delete_task(request, uid):
-    task = TodoItem.objects.get(id=uid)
-    task.delete()
-    return redirect("/tasks/list")
+    try:
+        task = TodoItem.objects.get(id=uid)
+        task.delete()
+    except:
+        pass
+    return redirect(reverse("tasks:list"))
 
 
 class TaskListView(ListView):
@@ -38,7 +45,7 @@ class TaskCreateView(View):
         form = TodoItemForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/tasks/list')
+            return redirect(reverse("tasks:list"))
 
         return self.my_render(request, form)
 
@@ -46,3 +53,8 @@ class TaskCreateView(View):
     def get(self, request, *args, **kwargs):
         form = TodoItemForm()
         return self.my_render(request, form)
+
+
+class TaskDetailsView(DetailView):
+    model = TodoItem
+    template_name = 'tasks/details.html'

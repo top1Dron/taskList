@@ -18,8 +18,8 @@
             <li>
                 <input class='checkbox' data-uid={{task.id}} type='checkbox' />
             {% endif %}
-                {{ task }}
-                <a class='remove' href="../delete/{{ task.id }}">X</a>
+                <a href={% url 'tasks:details' task.id %}>{{ task }}</a>
+                <a class='remove' href={% url 'tasks:delete' task.id %}>X</a>
                 <hr/>
             </li>
         {% endfor %}

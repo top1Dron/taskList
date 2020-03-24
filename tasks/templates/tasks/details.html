@@ -1,0 +1,26 @@
+{% extends 'tasks/base.html' %}
+{% load static %}
+
+
+{% block title %}Task {{ object.id }}{% endblock title %}
+{% block extrahead %}
+    <link rel="stylesheet"
+href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+integrity="sha384-
+lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+crossorigin="anonymous">
+{% endblock extrahead %}
+
+
+{% block main_content %}
+    <h1>Task</h1>
+    <p><strong>Description</strong>: {{ object }}</p>
+    <ul>
+        <li>
+        {{ object.is_completed|yesno:"Task completed, Task is still not completed" }}
+        </li>
+        <li><i class='far fa-calendar-alt'></i>&nbsp;Created: {{ object.created|date:"Y-b-d H:i" }}</li>
+        <li><i class='far fa-clock'></i>&nbsp;Last update: {{ object.updated }}</li>
+    </ul>
+    <i class='fas fa-clipboard-list'></i>&nbsp;<a href={% url 'tasks:list' %}>Back to the list</a>
+{% endblock main_content %}
