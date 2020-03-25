@@ -1,11 +1,11 @@
-{% extends 'tasks/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title  %}Create a task{% endblock title  %}
 
 {% block main_content %}
     <h1>Create a task</h1>
-    <form action="." method="POST">
+    <form action="." method="POST" class="tasks-create">
         {{ form }}
         {% csrf_token %}
         <button class="add" type="submit">+</button>

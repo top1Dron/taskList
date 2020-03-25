@@ -7,14 +7,14 @@
     font-weight: bold;
 }
 
-form {
+form.tasks-create {
     outline: 0;
     height: 36px;
     margin-top: 5%;
     border: 3px solid #3b3b3b;
 }
 
-input[type="text"] {
+form.tasks-create > input[type="text"] {
     outline: 0;
     width: 55%;
     height: 32px;

@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -10,7 +12,7 @@ from tasks.models import TodoItem
 from tasks.forms import TodoItemForm
 
 
-
+@login_required
 def index(request):
     return HttpResponse("Simple answer from tasks app")
 
@@ -31,10 +33,17 @@ def delete_task(request, uid):
     return redirect(reverse("tasks:list"))
 
 
-class TaskListView(ListView):
-    queryset = TodoItem.objects.all()
+class TaskListView(LoginRequiredMixin, ListView):
+    model=TodoItem
     context_object_name = 'tasks'
     template_name = 'tasks/list.html'
+
+
+    def get_queryset(self):
+        user = self.request.user
+        if u.is_anonymous:
+            return []
+        return user.tasks.all()
 
 
 class TaskCreateView(View):
@@ -44,7 +53,9 @@ class TaskCreateView(View):
     def post(self, request, *args, **kwargs):
         form = TodoItemForm(request.POST)
         if form.is_valid():
-            form.save()
+            new_task = form.save(commit=False)
+            new_task.owner = request.user
+            new_task.save()
             return redirect(reverse("tasks:list"))
 
         return self.my_render(request, form)
