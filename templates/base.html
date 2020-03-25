@@ -4,14 +4,41 @@
         <title>{% block title %} Base{% endblock %}</title>
         <link rel='stylesheet' href="{% static 'css/styles.css' %}">
 
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+                integrity="sha384-
+                Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+                crossorigin="anonymous'
+
         <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
         {% block extrahead %}
         {% endblock extrahead %}
     </head>
     <body>
         <div class='container'>
-            {% block main_content %}
-            {% endblock main_content %}
+            <div class='row'>
+
+                <div class='side_bar col'>
+                {% block side_bar %}
+                    {% if user.is_authenticated %}
+                        <p>{{ user.first_name }}</p>
+                        <img src='{{ user.profile.avatar.url }}' class='img-fluid'>
+
+                        <ul>
+                            <li><a href='#'>Profile</a></li>
+                            <li><a href='{% url 'tasks:create' %}'>add task</a></li>
+                            <li><a href='{% url 'tasks:list' %}'>tasks</a></li>
+                            <li><a href='{% url 'logout' %}'>log out</a></li>
+                        </ul>
+                    {% endif %}
+                {% endblock side_bar %}
+                </div>
+
+                <div class='main_content col-8'>
+                    {% block main_content %}
+                    {% endblock main_content %}
+                </div>
+
+            </div>
         </div>
     </body>
 </html>
