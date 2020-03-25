@@ -41,7 +41,7 @@ class TaskListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        if u.is_anonymous:
+        if user.is_anonymous:
             return []
         return user.tasks.all()
 
