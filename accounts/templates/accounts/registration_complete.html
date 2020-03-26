@@ -3,5 +3,5 @@
 {% block title %}Success!{% endblock title %}
 {% block main_content %}
     <h1>Your account complete registration, {{new_user.first_name}}!</h1>
-    <p>Please, <a href='{% url 'login' %}'>login</a>
+    <p>Please, <a href='{% url 'accounts:login' %}'>login</a>
 {% endblock main_content %}
