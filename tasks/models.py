@@ -4,6 +4,16 @@ from django.contrib.auth.models import User
 
 
 class TodoItem(models.Model):
+    PRIORITY_HIGH = 1
+    PRIORITY_MEDIUM = 2
+    PRIORITY_LOW = 3
+
+    PRIORITY_CHOISES = [
+        (PRIORITY_HIGH, 'High priority'),
+        (PRIORITY_MEDIUM, 'Medium priority'),
+        (PRIORITY_LOW, 'Low priority'),
+    ]
+
     description = models.CharField(max_length=64)
     is_completed = models.BooleanField("executed", default=False)
     created = models.DateTimeField(auto_now_add=True)
@@ -12,6 +22,9 @@ class TodoItem(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='tasks'
+    )
+    priority = models.IntegerField(
+        'Priority', choices=PRIORITY_CHOISES, default=PRIORITY_MEDIUM
     )
 
 

@@ -9,5 +9,17 @@ class AddTaskForm(forms.Form):
 class TodoItemForm(forms.ModelForm):
     class Meta:
         model = TodoItem
-        fields = ('description',)
-        labels = {'description': ''}
+        fields = ('description', 'priority')
+        labels = {'description': 'Description', 'priority': ''}
+
+
+class TodoItemExportForm(forms.Form):
+    prio_high = forms.BooleanField(
+        label="high priority", initial=True, required=False
+    )
+    prio_med = forms.BooleanField(
+        label="medium priority", initial=True, required=False
+    )
+    prio_low = forms.BooleanField(
+        label="low priority", initial=False, required=False
+    )

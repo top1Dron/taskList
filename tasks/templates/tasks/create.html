@@ -5,10 +5,10 @@
 
 {% block main_content %}
     <h1>Create a task</h1>
-    <form action="." method="POST" class="tasks-create">
-        {{ form }}
+    <form action="." method="POST">
+        {{ form.as_p }}
         {% csrf_token %}
-        <button class="add" type="submit">+</button>
+        <button class="add" type="submit">Add</button>
     </form>
 {% endblock main_content %}
             

@@ -26,8 +26,7 @@ form.tasks-create > input[type="text"] {
 
 .add{
     outline: 0;
-    float: right;
-    width: 34px;
+    width: 40%;
     height: 36px;
     color: #fff;
     font-size: 18px;

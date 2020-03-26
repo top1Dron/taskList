@@ -25,22 +25,19 @@
             <div class='row'>
 
                 <div class='side_bar col'>
-                {% block side_bar %}
-                    {% if user.is_authenticated %}
-                        <p>{{ user.first_name }}</p>
-                        {% if user.profile.avatar.url != None %}
-                            <img src="{{ user.profile.avatar.url }}" class="img-responsive">
+                    {% block side_bar %}
+                        {% if user.is_authenticated %}
+                            <p>{{ user.first_name }}</p>
+                            <ul>
+                                <li><a href='#'>Profile</a></li>
+                                <li><a href='{% url 'accounts:edit' %}'>edit profile</a></li>
+                                <li><a href='{% url 'accounts:password-change' %}'>change password</a></li>
+                                <li><a href='{% url 'tasks:create' %}'>add task</a></li>
+                                <li><a href='{% url 'tasks:list' %}'>tasks</a></li>
+                                <li><a href='{% url 'accounts:logout' %}'>log out</a></li>
+                            </ul>
                         {% endif %}
-                        <ul>
-                            <li><a href='#'>Profile</a></li>
-                            <li><a href='{% url 'accounts:edit' %}'>edit profile</a></li>
-                            <li><a href='{% url 'accounts:password-change' %}'>change password</a></li>
-                            <li><a href='{% url 'tasks:create' %}'>add task</a></li>
-                            <li><a href='{% url 'tasks:list' %}'>tasks</a></li>
-                            <li><a href='{% url 'accounts:logout' %}'>log out</a></li>
-                        </ul>
-                    {% endif %}
-                {% endblock side_bar %}
+                    {% endblock side_bar %}
                 </div>
 
                 <div class='main_content col-8'>

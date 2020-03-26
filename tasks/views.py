@@ -1,6 +1,9 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -10,7 +13,7 @@ from django.views.generic.detail import DetailView
 
 
 from tasks.models import TodoItem
-from tasks.forms import TodoItemForm
+from tasks.forms import TodoItemForm, TodoItemExportForm
 
 
 @login_required
@@ -73,3 +76,59 @@ class TaskCreateView(View):
 class TaskDetailsView(DetailView):
     model = TodoItem
     template_name = 'tasks/details.html'
+
+
+class TaskEditView(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        task = TodoItem.objects.get(id=pk)
+        form = TodoItemForm(request.POST, instance=task)
+        if form.is_valid():
+            new_task = form.save(commit=False)
+            new_task.owner = request.user
+            new_task.save()
+            return redirect(reverse('tasks:list'))
+
+        return render(request, 'tasks/edit.html', {'form':form, 'task': task })
+
+
+    def get(self, request, pk, *args, **kwargs):
+        task = TodoItem.objects.get(id=pk)
+        form = TodoItemForm(instance=task)
+        return render(request, 'tasks/edit.html', {'form':form, 'task': task })
+
+
+class TaskExportView(LoginRequiredMixin, View):
+    def generate_body(self, user, priorities):
+        q = Q()
+        if priorities['prio_high']:
+            q = q | Q(priority=TodoItem.PRIORITY_HIGH)
+        if priorities["prio_med"]:
+            q = q | Q(priority=TodoItem.PRIORITY_MEDIUM)
+        if priorities["prio_low"]:
+            q = q | Q(priority=TodoItem.PRIORITY_LOW)
+        tasks = TodoItem.objects.filter(owner=user).filter(q).all()
+
+        body = "Ваши задачи и приоритеты:\n"
+        for t in list(tasks):
+            if t.is_completed:
+                body += f"[x] {t.description} ({t.get_priority_display()})\n"
+            else:
+                body += f"[ ] {t.description} ({t.get_priority_display()})\n"
+        return body
+
+
+    def post(self, request, *args, **kwargs):
+        form = TodoItemExportForm(request.POST)
+        if form.is_valid():
+            email = request.user.email
+            body = self.generate_body(request.user, form.cleaned_data)
+            send_mail("Задачи", body, settings.EMAIL_HOST_USER, [email])
+            messages.success(request, f"Задачи были отправлены на почту {email}")
+        else:
+            messages.error(request, "Что-то пошло не так, попробуйте ещё раз")
+        return redirect(reverse("tasks:list"))
+
+
+    def get(self, request, *args, **kwargs):
+        form = TodoItemExportForm()
+        return render(request, "tasks/export.html", {"form": form})

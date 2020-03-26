@@ -9,6 +9,7 @@
 
 {% block main_content %}
     <h1>Currrent tasks</h1>
+    <p><i class="fa fa-download"></i>&nbsp;<a href="{% url "tasks:export"%}">Export</a></p>
         <ul id='todo-list'>
         {% for task in tasks %}
             {% if task.is_completed %}
@@ -17,6 +18,13 @@
             {% else %}
             <li>
                 <input class='checkbox' data-uid={{task.id}} type='checkbox' />
+            {% endif %}
+            {% if task.priority == task.PRIORITY_HIGH %}
+                <span class="badge badge-pill badge-danger">&nbsp;</span>
+            {% elif task.priority == task.PRIORITY_MEDIUM %}
+                <span class="badge badge-pill badge-secondary">&nbsp;</span>
+            {% elif task.priority == task.PRIORITY_LOW %}
+                <span class="badge badge-pill badge-success">&nbsp;</span>
             {% endif %}
                 <a href={% url 'tasks:details' task.id %}>{{ task }}</a>
                 <a class='remove' href={% url 'tasks:delete' task.id %}>X</a>

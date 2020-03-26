@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Export{% endblock title %}
+
+{% block main_content %}
+    <h1>Tasks export</h1>
+    <p>An email with tasks will come to your mail. Refine list.</p>
+    <form action="." method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <p><button class="add" type="submit">Export</button></p>
+    </form>
+{% endblock main_content %}

@@ -21,6 +21,7 @@ crossorigin="anonymous">
         </li>
         <li><i class='far fa-calendar-alt'></i>&nbsp;Created: {{ object.created|date:"Y-b-d H:i" }}</li>
         <li><i class='far fa-clock'></i>&nbsp;Last update: {{ object.updated }}</li>
+        <li><i class="far fa-edit"></i>&nbsp;<a href="{% url "tasks:edit" pk=object.pk %}">Edit</a></li>
     </ul>
     <i class='fas fa-clipboard-list'></i>&nbsp;<a href={% url 'tasks:list' %}>Back to the list</a>
 {% endblock main_content %}
