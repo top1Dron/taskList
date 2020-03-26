@@ -131,7 +131,7 @@ LOGIN_REDIRECT_URL = 'tasks:list'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_PORT = int(os.environ.get("EMAIL_PORT"), 15)
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
