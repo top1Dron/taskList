@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
@@ -21,6 +22,7 @@ def complete_task(request, uid):
     task = TodoItem.objects.get(id=uid)
     task.is_completed = True
     task.save()
+    messages.warning(request, 'Tak completed')
     return HttpResponse("OK")
 
 
@@ -28,6 +30,7 @@ def delete_task(request, uid):
     try:
         task = TodoItem.objects.get(id=uid)
         task.delete()
+        messages.success(request, 'Task removed')
     except:
         pass
     return redirect(reverse("tasks:list"))
@@ -56,6 +59,7 @@ class TaskCreateView(View):
             new_task = form.save(commit=False)
             new_task.owner = request.user
             new_task.save()
+            messages.info(request, 'Task created')
             return redirect(reverse("tasks:list"))
 
         return self.my_render(request, form)
