@@ -129,3 +129,13 @@ LOGIN_REDIRECT_URL = 'tasks:list'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'pro100takvoin@gmail.com'
+EMAIL_HOST_PASSWORD = 'qwertyuio456'
+DEFAULT_FROM_EMAIL = 'pro100takvoin@gmail.com'
+DEFAULT_TO_EMAIL = 'Your email'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

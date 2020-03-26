@@ -15,5 +15,6 @@
         <input type='hidden' name='next' value='{{ next }}' />
         <button type='submit'>Enter</button>
     </form>
-    <a href='{% url 'accounts:register' %}'>Sign up</a>
+    <p><a href='{% url 'accounts:password_reset' %}'>Forget password</a></p>
+    <p><a href='{% url 'accounts:register' %}'>Sign up</a></p>
 {% endblock main_content %}

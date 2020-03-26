@@ -7,6 +7,9 @@ from django.views import View
 from accounts.forms import LoginForm, RegistrationForm, UserEditForm, ProfileEditForm
 from accounts.models import Profile
 
+from django.core.mail import send_mail
+from django.conf import settings
+
 
 class LoginView(View):
     def post(self, request, *args, **kwargs):
