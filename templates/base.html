@@ -20,10 +20,12 @@
                 {% block side_bar %}
                     {% if user.is_authenticated %}
                         <p>{{ user.first_name }}</p>
-                        <img src="{{ user.profile.avatar.url }}" class="img-responsive">
-
+                        {% if user.profile.avatar.url != None %}
+                            <img src="{{ user.profile.avatar.url }}" class="img-responsive">
+                        {% endif %}
                         <ul>
                             <li><a href='#'>Profile</a></li>
+                            <li><a href='{% url 'accounts:edit' %}'>edit profile</a></li>
                             <li><a href='{% url 'tasks:create' %}'>add task</a></li>
                             <li><a href='{% url 'tasks:list' %}'>tasks</a></li>
                             <li><a href='{% url 'accounts:logout' %}'>log out</a></li>
