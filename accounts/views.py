@@ -81,7 +81,7 @@ def mail(request):
     msg = 'Success sending mail'
     to = request.user.email
     res = send_mail(subject, msg, settings.SERVER_EMAIL)
-    if res = 1:
+    if res == 1:
         msg = 'Mail sent successfully'
     else:
         msg = 'Mail could not sent'
