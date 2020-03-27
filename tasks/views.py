@@ -48,7 +48,7 @@ class TaskListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         user = self.request.user
         qs = super().get_queryset()
-        return qs.filter(owner=u)
+        return qs.filter(owner=user)
 
 
 class TaskCreateView(View):
