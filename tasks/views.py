@@ -4,16 +4,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 
 
-from tasks.models import TodoItem
 from tasks.forms import TodoItemForm, TodoItemExportForm
+from tasks.models import TodoItem
 
 
 @login_required
@@ -47,9 +47,8 @@ class TaskListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_anonymous:
-            return []
-        return user.tasks.all()
+        qs = super().get_queryset()
+        return qs.filter(owner=u)
 
 
 class TaskCreateView(View):
@@ -122,10 +121,10 @@ class TaskExportView(LoginRequiredMixin, View):
         if form.is_valid():
             email = request.user.email
             body = self.generate_body(request.user, form.cleaned_data)
-            send_mail("Задачи", body, settings.EMAIL_HOST_USER, [email])
-            messages.success(request, f"Задачи были отправлены на почту {email}")
+            send_mail("Tasks", body, settings.SERVER_EMAIL, [email])
+            messages.success(request, f"Tasks were sent on email {email}")
         else:
-            messages.error(request, "Что-то пошло не так, попробуйте ещё раз")
+            messages.error(request, "Something went wrong, please try again")
         return redirect(reverse("tasks:list"))
 
 

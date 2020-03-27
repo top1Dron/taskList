@@ -7,6 +7,6 @@
     <form action='{% url 'tasks:edit' task.pk %}' method='post'>
         {{ form.as_p }}
         {% csrf_token %}
-        <p><button class='add' type=submit>Save</button></p>
+        <p><button class='add' type='submit'>Save</button></p>
     </form>
 {% endblock main_content %}

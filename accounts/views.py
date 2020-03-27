@@ -1,14 +1,13 @@
+from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
 from accounts.forms import LoginForm, RegistrationForm, UserEditForm, ProfileEditForm
 from accounts.models import Profile
-
-from django.core.mail import send_mail
-from django.conf import settings
 
 
 class LoginView(View):
@@ -28,7 +27,7 @@ class LoginView(View):
                 return HttpResponse('Your account is forbidden')
 
             login(request, user)
-            return HttpResponse('Welcome! The enter is successful')
+            return HttpResponse('Welcome! Authenticated successful')
 
         return render(request, 'accounts/login.html', {'form': form})
 

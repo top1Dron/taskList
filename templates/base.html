@@ -1,64 +1,56 @@
 {% load static %}
 <html>
-    <head>
-        <title>{% block title %} Base{% endblock %}</title>
-        <link rel='stylesheet' href="{% static 'css/styles.css' %}">
+  <head>
+    <title>{% block title %}Туду-дуду{% endblock title%}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
-            integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
-            crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
-        <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-                integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-                crossorigin="anonymous">
-        </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-                integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-                crossorigin="anonymous">
-        </script>
-        {% block extrahead %}
-        {% endblock extrahead %}
-    </head>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    {% block extra_head %}{% endblock extra_head%}
+  </head>
     <body>
-        <div class='container'>
-            <div class='row'>
+    <div class="container">
+      <div class="row">
 
-                <div class='side_bar col'>
-                    {% block side_bar %}
-                        {% if user.is_authenticated %}
-                            <p>{{ user.first_name }}</p>
-                            <ul>
-                                <li><a href='#'>Profile</a></li>
-                                <li><a href='{% url 'accounts:edit' %}'>edit profile</a></li>
-                                <li><a href='{% url 'accounts:password-change' %}'>change password</a></li>
-                                <li><a href='{% url 'tasks:create' %}'>add task</a></li>
-                                <li><a href='{% url 'tasks:list' %}'>tasks</a></li>
-                                <li><a href='{% url 'accounts:logout' %}'>log out</a></li>
-                            </ul>
-                        {% endif %}
-                    {% endblock side_bar %}
-                </div>
+        <div class="side_bar col">
+          {% block side_bar %}
+            {% if user.is_authenticated %}
+              <p>{{ user.first_name }}</p>
+              <p>Login: {{ user.username }}</p>
 
-                <div class='main_content col-8'>
-                    {% if messages %}
-                    <div class='row'>
-                        <ul class='messages'>
-                            {% for message in messages %}
-                            <li class='alert alert-{{ message.tags }} alert-dismissable'>
-                                {{ message }}
-                                <a href='#' class='close' data-dismiss='alert'>x</a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% endif %}
-                    
-                    {% block main_content %}
-                    {% endblock main_content %}
-                </div>
-
-            </div>
+                <ul>
+                    <li><i class="far fa-user"></i>&nbsp;<a href="{% url "accounts:edit" %}">профиль</a></li>
+                    <li><i class="far fa-user"></i>&nbsp;<a href="{% url 'accounts:password-change' %}">поменять пароль</a></li>
+                    <li><i class="fa fa-plus"></i>&nbsp;<a href="{% url "tasks:create" %}">добавить задачу</a></li>
+                    <li><i class="fas fa-clipboard-list"></i>&nbsp;<a href="{% url "tasks:list" %}">задачи</a></li>
+                    <li><i class="fa fa-sign-out-alt"></i>&nbsp;<a href="{% url "logout" %}">выйти</a></li>
+                </ul>
+            {% endif %}
+           {% endblock side_bar %}
         </div>
-    </body>
+
+        <div class="main_content col-8">
+          {% if messages %}
+          <div class="row">
+            <ul class="messages">
+              {% for message in messages %}
+              <li class="alert alert-{{ message.tags }} alert-dismissable">
+                {{ message|safe }}
+                <a href="#" class="close" data-dismiss="alert">x</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+          {% block main_content %}
+          {% endblock %}
+         </div>
+
+      </div>
+    </div>
+  </body>
 </html>

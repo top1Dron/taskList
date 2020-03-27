@@ -26,8 +26,8 @@
             {% elif task.priority == task.PRIORITY_LOW %}
                 <span class="badge badge-pill badge-success">&nbsp;</span>
             {% endif %}
-                <a href={% url 'tasks:details' task.id %}>{{ task }}</a>
-                <a class='remove' href={% url 'tasks:delete' task.id %}>X</a>
+                <a href={% url "tasks:details" task.id %}>{{ task }}</a>
+                <a class="remove" href={% url "tasks:delete" task.id %}>X</a>
                 <hr/>
             </li>
         {% endfor %}

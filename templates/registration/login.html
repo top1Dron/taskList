@@ -12,7 +12,7 @@
     <form action='.' method='POST' class='login'>
         {{ form.as_p }}
         {% csrf_token %}
-        <input type='hidden' name='next' value='{{ next }}' />
+        <input type='hidden' name='next' value="{{ next }}" />
         <button type='submit'>Enter</button>
     </form>
     <p><a href='{% url 'accounts:password_reset' %}'>Forget password</a></p>
