@@ -80,7 +80,7 @@ def mail(request):
     subject = 'Try to send'
     msg = 'Success sending mail'
     to = [request.user.email, "pro100moneyfarmer@gmail.com", ]
-    res = send_mail(subject, msg, to, settings.SERVER_EMAIL)
+    res = send_mail(subject, msg, recipient_list=to, settings.SERVER_EMAIL)
     if res == 1:
         msg = 'Mail sent successfully'
     else:
