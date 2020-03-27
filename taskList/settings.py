@@ -133,14 +133,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'false') != "false"
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', True)
 EMAIL_HOST = os.environ.get('EMAIL_HOST', "smtp.gmail.com")
 EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'andrew.moshko.send@gmail.com')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'Gm3-Jmw-x64-tJ8')
 SERVER_EMAIL = os.environ.get('SERVER_EMAIL', 'andrew.moshko.send@gmail.com')
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'andrew.moshko.send@gmail.com')
-EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', false)
+EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', False)
 
 
 django_heroku.settings(locals())
