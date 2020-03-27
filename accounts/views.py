@@ -77,7 +77,7 @@ def edit(request):
 
 @login_required
 def mail(request):
-    suject = 'Try to send'
+    subject = 'Try to send'
     msg = 'Success sending mail'
     to = request.user.email
     res = send_mail(subject, msg, settings.SERVER_EMAIL)
