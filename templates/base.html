@@ -23,11 +23,11 @@
               <p>Login: {{ user.username }}</p>
 
                 <ul>
-                    <li><i class="far fa-user"></i>&nbsp;<a href="{% url "accounts:edit" %}">профиль</a></li>
-                    <li><i class="far fa-user"></i>&nbsp;<a href="{% url 'accounts:password-change' %}">поменять пароль</a></li>
-                    <li><i class="fa fa-plus"></i>&nbsp;<a href="{% url "tasks:create" %}">добавить задачу</a></li>
-                    <li><i class="fas fa-clipboard-list"></i>&nbsp;<a href="{% url "tasks:list" %}">задачи</a></li>
-                    <li><i class="fa fa-sign-out-alt"></i>&nbsp;<a href="{% url "logout" %}">выйти</a></li>
+                    <li><i class="far fa-user"></i>&nbsp;<a href="{% url "accounts:edit" %}">Profile</a></li>
+                    <li><i class="far fa-user"></i>&nbsp;<a href="{% url 'accounts:password-change' %}">Change password</a></li>
+                    <li><i class="fa fa-plus"></i>&nbsp;<a href="{% url "tasks:create" %}">Add task</a></li>
+                    <li><i class="fas fa-clipboard-list"></i>&nbsp;<a href="{% url "tasks:list" %}">Tasks</a></li>
+                    <li><i class="fa fa-sign-out-alt"></i>&nbsp;<a href="{% url "accounts:logout" %}">Log out</a></li>
                 </ul>
             {% endif %}
            {% endblock side_bar %}
