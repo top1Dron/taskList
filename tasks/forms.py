@@ -9,8 +9,8 @@ class AddTaskForm(forms.Form):
 class TodoItemForm(forms.ModelForm):
     class Meta:
         model = TodoItem
-        fields = ('description', 'priority')
-        labels = {'description': 'Description', 'priority': ''}
+        fields = ('description', 'priority', 'tags')
+        labels = {'description': 'Description', 'priority': '', 'tags': 'tags'}
 
 
 class TodoItemExportForm(forms.Form):

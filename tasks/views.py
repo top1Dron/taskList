@@ -5,13 +5,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 
 
+from taggit.models import Tag
 from tasks.forms import TodoItemForm, TodoItemExportForm
 from tasks.models import TodoItem
 
@@ -51,6 +52,18 @@ class TaskListView(LoginRequiredMixin, ListView):
         return qs.filter(owner=user)
 
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        user_tasks = self.get_queryset()
+        tags = []
+        for t in user_tasks:
+            tags.append(list(t.tags.all()))
+
+        context['tags'] = filter_tags(tags)
+        return context
+
+
 class TaskCreateView(View):
     def my_render(self, request, form):
         return render(request, 'tasks/create.html', {'form': form})
@@ -61,6 +74,7 @@ class TaskCreateView(View):
             new_task = form.save(commit=False)
             new_task.owner = request.user
             new_task.save()
+            form.save_m2m()
             messages.info(request, 'Task created')
             return redirect(reverse("tasks:list"))
 
@@ -131,3 +145,34 @@ class TaskExportView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         form = TodoItemExportForm()
         return render(request, "tasks/export.html", {"form": form})
+
+
+def tasks_by_tag(request, tag_slug=None):
+    user = request.user
+    tasks = TodoItem.objects.filter(owner=user).all()
+
+    tag = None
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        tasks = tasks.filter(tags__in=[tag])
+
+    return render(request, "tasks/list_by_tag.html", {"tag": tag, "tasks":tasks})
+
+
+def filter_tags(tags_by_task):
+    filterTags = []
+    for listTags in tags_by_task:
+        for tag in listTags:
+            if tag not in filterTags:
+                filterTags.append(tag)
+    return filterTags
+
+
+def filter_tasks(tasks, tag):
+    tasksList = []
+    for taskTags in tasks:
+        for key, value in taskTags.items():
+            if key == 'tags':
+                if tag in filter_tags(value):
+                    tasksList.append(taskTags['task_id'])
+    return tasksList

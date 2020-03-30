@@ -32,4 +32,11 @@
             </li>
         {% endfor %}
         </ul>
+        <ul class='list-inline'>
+        {% for tag in tags %}
+            <li class='list-inline-item'>
+                <span class='badge badge-info'>{{ tags }}</span>
+            </li>
+        {% endfor %}
+        </ul>
 {% endblock main_content %}

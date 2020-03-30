@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Tasks for today{% endblock title %}
+
+{% block extrahead %}
+    <script src="{% static 'js/script.js' %}"></script>
+{% endblock extrahead %}
+
+{% block main_content %}
+    {% if tag %}
+    <h1>Current tasks with tag "{{ tag.name }}"</h1>
+    {% else %}
+    <h1>All currrent tasks</h1>
+    {% endif %}
+
+    <p><i class="fa fa-download"></i>&nbsp;<a href="{% url "tasks:export"%}">Export</a></p>
+        
+    {% for t in all_tags %}
+        {% if forloop.first %}<ul class="list-inline">
+            <li class="list-inline-item">tags:</li>
+        {% endif %}
+        <li class="list-inline-item">
+        <a href="{% url "tasks:list_by_tag" t.slug %}">
+        {% if t.pk == tag.pk %}
+            <span class="badge badge-success">{{ t.name }}</span>
+        {% else %}
+            <span class="badge badge-info">{{ t.name }}</span>
+        {% endif %}
+        </a>
+        </li>
+        {% if forloop.last %}</ul>{% endif %}
+    {% endfor %}
+
+    <hr/>
+    <ul id='todo-list'>
+    {% for task in tasks %}
+        {% if task.is_completed %}
+        <li class="completed">
+            <input class='checkbox' data-uid={{task.id}} type='checkbox' disabled='disabled' checked='checked' />
+        {% else %}
+        <li>
+            <input class='checkbox' data-uid={{task.id}} type='checkbox' />
+        {% endif %}
+        {% if task.priority == task.PRIORITY_HIGH %}
+            <span class="badge badge-pill badge-danger">&nbsp;</span>
+        {% elif task.priority == task.PRIORITY_MEDIUM %}
+            <span class="badge badge-pill badge-secondary">&nbsp;</span>
+        {% elif task.priority == task.PRIORITY_LOW %}
+            <span class="badge badge-pill badge-success">&nbsp;</span>
+        {% endif %}
+            <a href={% url "tasks:details" task.id %}>{{ task }}</a>
+            <a class="remove" href={% url "tasks:delete" task.id %}>X</a>
+            <hr/>
+        </li>
+    {% endfor %}
+    </ul>
+    <ul class='list-inline'>
+    {% for tag in tags %}
+        <li class='list-inline-item'>
+            <span class='badge badge-info'>{{ tags }}</span>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock main_content %}

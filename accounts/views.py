@@ -1,4 +1,4 @@
-from django.conf import settings
+# from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
@@ -8,6 +8,8 @@ from django.views import View
 
 from accounts.forms import LoginForm, RegistrationForm, UserEditForm, ProfileEditForm
 from accounts.models import Profile
+
+# from taskList import settings
 
 
 class LoginView(View):
@@ -76,12 +78,12 @@ def edit(request):
 
 # @login_required
 # def mail(request):
-#     subject = 'Try to send'
-#     msg = 'Success sending mail'
-#     to = [request.user.email, "pro100moneyfarmer@gmail.com", ]
-#     res = send_mail(subject, msg, recipient_list=to, settings.SERVER_EMAIL)
+#     subject = "Try to send"
+#     msg = "Success sending mail"
+#     to = "pro100moneyfarmer@gmail.com"
+#     res = send_mail(subject, msg, settings.EMAIL_HOST_USER, [to])
 #     if res == 1:
 #         msg = 'Mail sent successfully'
 #     else:
 #         msg = 'Mail could not sent'
-#     return HttpResponse(msg)
+#     return HttpResponse(f"{msg} {res}")
