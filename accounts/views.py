@@ -13,6 +13,9 @@ from accounts.models import Profile
 
 
 class LoginView(View):
+    """View for sign in user. Includes get request, which shows
+    login form page, and post request, which checked input data in form"""
+
     def post(self, request, *args, **kwargs):
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -40,6 +43,7 @@ class LoginView(View):
 
 
 def register(request):
+    """view for sign ip new user"""
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -56,6 +60,7 @@ def register(request):
 
 
 @login_required
+"""view for editing user profile data. Includes fields from User and Profile tables"""
 def edit(request):
     if request.method == 'POST':
         user_form = UserEditForm(instance=request.user, data=request.POST)
@@ -74,16 +79,3 @@ def edit(request):
         'accounts/edit.html',
         {'user_form': user_form, 'profile_form': profile_form, 'request': request.user},
     )
-
-
-# @login_required
-# def mail(request):
-#     subject = "Try to send"
-#     msg = "Success sending mail"
-#     to = "pro100moneyfarmer@gmail.com"
-#     res = send_mail(subject, msg, settings.EMAIL_HOST_USER, [to])
-#     if res == 1:
-#         msg = 'Mail sent successfully'
-#     else:
-#         msg = 'Mail could not sent'
-#     return HttpResponse(f"{msg} {res}")
