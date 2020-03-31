@@ -60,8 +60,8 @@ def register(request):
 
 
 @login_required
-"""view for editing user profile data. Includes fields from User and Profile tables"""
 def edit(request):
+    """view for editing user profile data. Includes fields from User and Profile tables"""
     if request.method == 'POST':
         user_form = UserEditForm(instance=request.user, data=request.POST)
         profile_form = ProfileEditForm(request.POST, instance=request.user.profile, files=request.FILES)
